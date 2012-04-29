@@ -1,0 +1,10 @@
+{
+	"name": "g2n",
+	"description" : "G2N application",
+	"version" : "0.0.1",
+	"author" : "Suvajit Gupta <suvajit_gupta@yahoo.com>",
+	"private" : true,
+	"dependencies" : {
+		"mongoose" : "*"
+	}
+}
