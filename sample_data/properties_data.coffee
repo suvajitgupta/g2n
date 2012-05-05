@@ -1,6 +1,6 @@
 buildings = [
   name: "50 West"
-  squareFeet: 203440
+  squareFootage: 203440
   owner: "BECO Management"
   meters: [
     name: "House Load"
@@ -13,7 +13,7 @@ buildings = [
   ]
 ,
   name: "Fernwood"
-  squareFeet: 235417
+  squareFootage: 235417
   owner: "Meritage Property Management"
   meters: [
     name: "Feed A"
@@ -30,7 +30,7 @@ buildings = [
   ]
 ,
   name: "Ten15"
-  squareFeet: 99916
+  squareFootage: 99916
   owner: "Donohoe"
   meters: [
     name: "Building"
@@ -43,7 +43,7 @@ buildings = [
   ]
 ,
   name: "Homer"
-  squareFeet: 300000
+  squareFootage: 300000
   owner: "Akridge Property Management"
   meters: [
     name: "B"

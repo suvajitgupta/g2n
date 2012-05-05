@@ -1,4 +1,19 @@
 building_readings = [
+  temperature: 73.4
+,
+  temperature: 71.6
+,
+  temperature: 71.6
+,
+  temperature: 71.6
+,
+  temperature: 71.6
+,
+  temperature: 71.6
+,
+  temperature: 71.6
+,
+  temperature: 68
 ]
 
 meter_readings = [

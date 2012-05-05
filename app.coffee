@@ -14,16 +14,16 @@ shutdown = ->
   console.log "\nDisconnected from Mongoose"
 
 add_doc = (Model, doc, cb) ->
-  console.log doc
-  doc.createdAt = doc.updatedAt = new Date
-  r = new Model doc
-  r.save (err) ->
-    cb()
+  m = new Model doc
+  console.log m
+  m.save (err) ->
+    console.log "Err %{err}"
+    cb() if cb?
     if err
       console.log err
       return err
     else
-      return r
+      return m
 
 update_cb = (docs)->
   (err, num_affected) ->
@@ -46,30 +46,45 @@ remove_doc = (Model, doc) ->
     console.log "Removed #{doc.name}" if not err
     shutdown()
   
-done_cb = ->
-  if ++counter == properties_data.buildings.length
+done_cb = (array)->
+  if ++counter == array.length
     shutdown()
   
 seed_docs = (Model, done) ->
-  add_doc Model, building, done_cb for building in properties_data.buildings
+  for building in properties_data.buildings
+    building.createdAt = building.updatedAt = new Date
+    add_doc Model, building, done
 
-# seed_docs properties.Building, done_cb
+# seed_docs properties.Building, done_cb(properties_data.buildings)
 
-# properties.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
-#   meter_id = docs[0].meters[0]._id
-#   console.log "Meter ID: #{meter_id}"
-#   for meter_reading in readings_data.meter_readings
-#     meter_reading.meterId = meter_id
-#     meter_reading.timestamp = new Date
-#     add_doc readings.MeterReading, meter_reading, done_cb
-
-properties.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
+properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, docs) ->
+  building_id = docs[0]._id
+  building_name = docs[0].name
+  console.log "Building Name: #{building_name}"
+  for building_reading in readings_data.building_readings
+    building_reading.buildingId = building_id
+    building_reading.timestamp = new Date
+    add_doc readings.BuildingReading, building_reading, null
   meter_id = docs[0].meters[0]._id
   meter_name = docs[0].meters[0].name
   console.log "Meter Name: #{meter_name}"
-  readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
-    print_docs docs
-    shutdown()
+  for meter_reading in readings_data.meter_readings
+    meter_reading.meterId = meter_id
+    meter_reading.timestamp = new Date
+    add_doc readings.MeterReading, meter_reading, done_cb(readings_data.meter_readings)
+
+# properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, docs) ->
+#   building_id = docs[0]._id
+#   building_name = docs[0].name
+#   console.log "Building Name: #{building_name}"
+#   readings.BuildingReading.find {buildingId: building_id}, {temperature: true, timestamp: true}, (err, docs) ->
+#     print_docs docs
+#     meter_id = docs[0].meters[0]._id
+#     meter_name = docs[0].meters[0].name
+#     console.log "Meter Name: #{meter_name}"
+#     readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
+#       print_docs docs
+#       shutdown()
     
 # update_doc properties.Building, doc, update_cb(docs) for doc in docs
 # remove_doc docs[0]
