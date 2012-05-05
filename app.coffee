@@ -10,67 +10,99 @@ shutdown = ->
   mongoose.disconnect()
   console.log "\nDisconnected from Mongoose"
 
-meters = [
-  Name: "House Load"
-  Building: "50 West"
-,
-  Name: "Tenant Load"
-  Building: "50 West"
-,
-  Name: "Feed A"
-  Building: "Fernwood"
-,
-  Name: "Feed B"
-  Building: "Fernwood"
-,
-  Name: "Feed C"
-  Building: "Fernwood"
-,
-  Name: "Building"
-  Building: "Ten15"
-,
-  Name: "Motor Control"
-  Building: "Ten15"
-,
-  Name: "B"
-  Building: "Homer"
-,
-  Name: "D"
-  Building: "Homer"
-,
-  Name: "North C"
-  Building: "Homer"
-,
-  Name: "South A"
-  Building: "Homer"
-,
-]
-
 buildings = [
-  Name: "50 West"
-  Utility: "Dominion"
-  SquareFeet: 203440
-  Owner: "BECO Management"
+  name: "50 West"
+  squareFeet: 203440
+  owner: "BECO Management"
+  meters: [
+    name: "House Load"
+    building: "50 West"
+    utility: "Dominion"
+  ,
+    name: "Tenant Load"
+    building: "50 West"
+    utility: "Dominion"
+  ]
 ,
-  Name: "Fernwood"
-  Utility: "Pepco"
-  SquareFeet: 235417
-  Owner: "Meritage Property Management"
+  name: "Fernwood"
+  squareFeet: 235417
+  owner: "Meritage Property Management"
+  meters: [
+    name: "Feed A"
+    building: "Fernwood"
+    utility: "Pepco"
+  ,
+    name: "Feed B"
+    building: "Fernwood"
+    utility: "Pepco"
+  ,
+    name: "Feed C"
+    building: "Fernwood"
+    utility: "Pepco"
+  ]
 ,
-  Name: "Ten15"
-  Utility: "Pepco-DC"
-  SquareFeet: 99916
-  Owner: "Donohoe"
+  name: "Ten15"
+  squareFeet: 99916
+  owner: "Donohoe"
+  meters: [
+    name: "Building"
+    building: "Ten15"
+    utility: "Pepco-DC"
+  ,
+    name: "Motor Control"
+    building: "Ten15"
+    utility: "Pepco-DC"
+  ]
 ,
-  Name: "Homer"
-  Utility: "Pepco-DC"
-  SquareFeet: 300000
-  Owner: "Akridge Property Management"
+  name: "Homer"
+  squareFeet: 300000
+  owner: "Akridge Property Management"
+  meters: [
+    name: "B"
+    building: "Homer"
+    utility: "Pepco-DC"
+  ,
+    name: "D"
+    building: "Homer"
+    utility: "Pepco-DC"
+  ,
+    name: "North C"
+    building: "Homer"
+    utility: "Pepco-DC"
+  ,
+    name: "South A"
+    building: "Homer"
+    utility: "Pepco-DC"
+  ]
 ]
 
-add_record = (Model, record, cb) ->
-  record.CreatedAt = record.UpdatedAt = new Date
-  r = new Model record
+meter_readings = [
+  kW: 207.4
+,
+  kW: 217.7
+,
+  kW: 207.4
+,
+  kW: 197
+,
+  kW: 207.4
+,
+  kW: 207.4
+,
+  kW: 217.7
+,
+  kW: 487.3
+,
+  kW: 580.6
+,
+  kW: 207.4
+]
+
+
+add_doc = (Model, doc, cb) ->
+  console.log doc
+  doc.createdAt = doc.updatedAt = new Date
+  r = new Model doc
   r.save (err) ->
     cb()
     if err
@@ -81,37 +113,52 @@ add_record = (Model, record, cb) ->
 
 update_cb = (docs)->
   (err, num_affected) ->
-    print_buildings docs if ++counter == buildings.length
+    print_docs docs if ++counter == buildings.length
   
-update_building = (building, cb) ->
-  models.Building.update {Name: building.Name}, {UpdatedAt: new Date}, null, cb
+update_doc = (Model, doc, cb) ->
+  Model.update {name: doc.name}, {updatedAt: new Date}, null, cb
   
-print_building = (doc) ->
+print_doc = (doc) ->
   console.log "********************************************************************************"
   for own key, value of doc.toObject()
     console.log "#{key}: #{value}" if key isnt "_id"
 
-print_buildings = (docs) ->
-  print_building doc for doc in docs
+print_docs = (docs) ->
+  print_doc doc for doc in docs
   shutdown()
 
-remove_building = (building) ->
-  models.Building.remove {Name: building.Name}, (err)->
-    console.log "Removed #{building.Name}" if not err
+remove_doc = (Model, doc) ->
+  Model.remove {name: doc.name}, (err)->
+    console.log "Removed #{doc.name}" if not err
     shutdown()
   
-done = ->
+done_cb = ->
   if ++counter == buildings.length
     shutdown()
   
-seed_data = (done) ->
-  add_record models.Meter, meter, done for meter in meters
-  add_record models.Building, building, done for building in buildings
+seed_docs = (Model, done) ->
+  add_doc Model, building, done_cb for building in buildings
 
-models.Building.find {}, (err, docs) ->
+models.MeterReading.find {}, (err, docs) ->
   return console.log err if err
   if docs is null || docs.length is 0
-    seed_data done
+    # seed_docs models.Building, done_cb
+    models.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
+      meter_id = docs[0].meters[0]._id
+      console.log "Meter ID: #{meter_id}"
+      for meter_reading in meter_readings
+        meter_reading.meterId = meter_id
+        meter_reading.timestamp = new Date
+        add_doc models.MeterReading, meter_reading, done_cb
   else
-    update_building building, update_cb(docs) for building in docs
-    # remove_building docs[0]
+    models.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
+      meter_id = docs[0].meters[0]._id
+      meter_name = docs[0].meters[0].name
+      console.log "Meter Name: #{meter_name}"
+      models.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
+        print_docs docs
+        shutdown()
+    # update_doc models.Building, doc, update_cb(docs) for doc in docs
+    # remove_doc docs[0]
+    # models.Building.remove {}, (err)->shutdown()
+    # models.Meter.remove {}, (err)->shutdown()
