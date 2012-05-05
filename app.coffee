@@ -17,7 +17,6 @@ add_doc = (Model, doc, cb) ->
   m = new Model doc
   console.log m
   m.save (err) ->
-    console.log "Err #{err}"
     cb() if cb?
     if err
       console.log err
@@ -25,9 +24,10 @@ add_doc = (Model, doc, cb) ->
     else
       return m
 
-update_cb = (docs)->
+update_cb = ->
   (err, num_affected) ->
-    print_docs docs, shutdown if ++counter == properties_data.buildings.length
+    console.log err if err?
+    shutdown()
   
 update_doc = (Model, doc, cb) ->
   Model.update {name: doc.name}, {updatedAt: new Date}, null, cb
@@ -41,14 +41,13 @@ print_docs = (docs, cb) ->
   print_doc doc for doc in docs
   cb() if cb?
 
-remove_doc = (Model, doc) ->
+remove_doc = (Model, doc, cb) ->
   Model.remove {name: doc.name}, (err)->
     console.log "Removed #{doc.name}" if not err
-    shutdown()
+    cb() if cb?
   
 done_cb = (array)->
   ->
-    console.log counter + "---------------------------------"
     if ++counter == array.length
       shutdown()
   
@@ -63,17 +62,20 @@ seed_docs = (Model, done) ->
 #   building_id = docs[0]._id
 #   building_name = docs[0].name
 #   console.log "Building Name: #{building_name}"
+#   done = done_cb(readings_data.building_readings)
 #   for building_reading in readings_data.building_readings
 #     building_reading.buildingId = building_id
 #     building_reading.timestamp = new Date
-#     add_doc readings.BuildingReading, building_reading, done_cb(readings_data.building_readings)
+#     add_doc readings.BuildingReading, building_reading, done
 #   meter_id = docs[0].meters[0]._id
 #   meter_name = docs[0].meters[0].name
 #   console.log "Meter Name: #{meter_name}"
+#   done = done_cb(readings_data.meter_readings)
 #   for meter_reading in readings_data.meter_readings
 #     meter_reading.meterId = meter_id
 #     meter_reading.timestamp = new Date
-#     add_doc readings.MeterReading, meter_reading, done_cb(readings_data.meter_readings)
+#     add_doc readings.MeterReading, meter_reading, done
+
 
 properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, docs) ->
   building_id = docs[0]._id
@@ -87,7 +89,6 @@ properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, doc
     readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
       print_docs docs, shutdown
       shutdown()
-    
-# update_doc properties.Building, doc, update_cb(docs) for doc in docs
-# remove_doc docs[0]
-# properties.Building.remove {}, (err)->shutdown()
+
+# update_doc properties.Building, doc, update_cb(docs)
+# remove_doc properties.Building, docs[0], shutdown
