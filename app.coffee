@@ -1,8 +1,9 @@
-config   = require './config'
-mongoose = require 'mongoose'
-db       = mongoose.connect config.db_url
-models   = require './models'
-counter  = 0
+config      = require './config'
+mongoose    = require 'mongoose'
+db          = mongoose.connect config.db_url
+properties  = require './models/properties'
+readings    = require './models/readings'
+counter     = 0
 
 mongoose.connection.on "open", -> console.log "Connected to Mongooose\n"
 mongoose.connection.on "error", (err, res) -> console.log "Mongoose error occured: #{err}"
@@ -139,26 +140,24 @@ done_cb = ->
 seed_docs = (Model, done) ->
   add_doc Model, building, done_cb for building in buildings
 
-models.MeterReading.find {}, (err, docs) ->
-  return console.log err if err
-  if docs is null || docs.length is 0
-    # seed_docs models.Building, done_cb
-    models.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
-      meter_id = docs[0].meters[0]._id
-      console.log "Meter ID: #{meter_id}"
-      for meter_reading in meter_readings
-        meter_reading.meterId = meter_id
-        meter_reading.timestamp = new Date
-        add_doc models.MeterReading, meter_reading, done_cb
-  else
-    models.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
-      meter_id = docs[0].meters[0]._id
-      meter_name = docs[0].meters[0].name
-      console.log "Meter Name: #{meter_name}"
-      models.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
-        print_docs docs
-        shutdown()
-    # update_doc models.Building, doc, update_cb(docs) for doc in docs
-    # remove_doc docs[0]
-    # models.Building.remove {}, (err)->shutdown()
-    # models.Meter.remove {}, (err)->shutdown()
+seed_docs properties.Building, done_cb
+
+# properties.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
+#   meter_id = docs[0].meters[0]._id
+#   console.log "Meter ID: #{meter_id}"
+#   for meter_reading in meter_readings
+#     meter_reading.meterId = meter_id
+#     meter_reading.timestamp = new Date
+#     add_doc readings.MeterReading, meter_reading, done_cb
+
+# properties.Building.find {name: "50 West"}, {meters: true}, (err, docs) ->
+#   meter_id = docs[0].meters[0]._id
+#   meter_name = docs[0].meters[0].name
+#   console.log "Meter Name: #{meter_name}"
+#   readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
+#     print_docs docs
+#     shutdown()
+    
+# update_doc properties.Building, doc, update_cb(docs) for doc in docs
+# remove_doc docs[0]
+# properties.Building.remove {}, (err)->shutdown()

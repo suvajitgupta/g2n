@@ -23,11 +23,5 @@ building_schema = new Schema
 
 Building  = mongoose.model "building", building_schema
 
-meter_reading_schema = new Schema
-  meterId:    Schema.ObjectId
-  timestamp:  Date
-  kW:         Number
 
-MeterReading  = mongoose.model "meter_reading", meter_reading_schema
-
-module.exports = { Building, MeterReading }
+module.exports = { Building }
