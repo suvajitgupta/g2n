@@ -1,0 +1,21 @@
+script(type="text/template", id="buildings-templ").
+	<div class="page-header">
+		<h1 class="header">{{title}}</h1>
+	</div>
+
+	{{#records}}
+	<div class="row">
+		<a	class="ajax-link" href="/buildings/{{name}}/meters"> {{name}}</a>
+	</div>
+	{{/records}}
+
+script(type="text/template", id="meters-templ").
+	<div class="page-header">
+		<h1 class="header">{{title}}</h1>
+	</div>
+
+	{{#records}}
+	<div class="row">
+		<a	class="ajax-link" href="/buildings/{{name}}/meters/{{name}}"> {{name}}</a>
+	</div>
+	{{/records}}

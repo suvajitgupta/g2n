@@ -1,0 +1,16 @@
+!!!
+html
+	head
+		title= title
+		//if lt IE 9
+			script(src="http://html5shim.googlecode.com/svn/trunk/html5.js")
+		!= css('app')
+	body
+		.navbar.navbar-fixed-top
+			.navbar-inner
+				.container
+					a.brand(href="/")
+						span #{title}
+		#content(class='container')
+			!= js('app')
+			!= body

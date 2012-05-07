@@ -77,18 +77,18 @@ seed_docs = (Model, done) ->
 #     add_doc readings.MeterReading, meter_reading, done
 
 
-properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, docs) ->
-  building_id = docs[0]._id
-  building_name = docs[0].name
-  console.log "Building Name: #{building_name}"
-  meter_id = docs[0].meters[0]._id
-  meter_name = docs[0].meters[0].name
-  console.log "Meter Name: #{meter_name}"
-  readings.BuildingReading.find {buildingId: building_id}, {temperature: true, timestamp: true}, (err, docs) ->
-    print_docs docs, null
-    readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
-      print_docs docs, shutdown
-      shutdown()
+# properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, docs) ->
+#   building_id = docs[0]._id
+#   building_name = docs[0].name
+#   console.log "Building Name: #{building_name}"
+#   meter_id = docs[0].meters[0]._id
+#   meter_name = docs[0].meters[0].name
+#   console.log "Meter Name: #{meter_name}"
+#   readings.BuildingReading.find {buildingId: building_id}, {temperature: true, timestamp: true}, (err, docs) ->
+#     print_docs docs, null
+#     readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
+#       print_docs docs, shutdown
+#       shutdown()
 
 # update_doc properties.Building, doc, update_cb(docs)
 # remove_doc properties.Building, docs[0], shutdown
