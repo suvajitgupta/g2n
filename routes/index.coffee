@@ -16,14 +16,14 @@ module.exports =
     properties.Building.find {}, {}, (err, docs) ->
       return next err if err?
       ret =
-        title: "#{docs.length} Buildings"
+        header: "#{docs.length} Buildings"
         records: docs
       res.send ret
 
   show_building_meters: (req, res, next)->
     properties.Building.find {_id: req.params.id}, {}, (err, docs) ->
       ret =
-        title: "#{docs[0].name}: #{docs[0].meters.length} Meters"
+        header: "#{docs[0].name}: #{docs[0].meters.length} Meters"
         records: docs[0].meters
       res.send ret
     
