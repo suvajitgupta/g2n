@@ -1,6 +1,9 @@
-config          = require '../config'
 mongoose        = require 'mongoose'
+config          = require '../config'
 db              = mongoose.connect config.db_url
+mongoose.connection.on "open", -> console.log "Connected to Mongooose\n"
+mongoose.connection.on "error", (err, res) -> console.log "Mongoose error occured: #{err}"
+
 properties      = require '../models/properties'
 readings        = require '../models/readings'
 

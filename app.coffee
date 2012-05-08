@@ -7,8 +7,6 @@ properties_data = require './sample_data/properties_data'
 readings_data   = require './sample_data/readings_data'
 counter         = 0
 
-mongoose.connection.on "open", -> console.log "Connected to Mongooose\n"
-mongoose.connection.on "error", (err, res) -> console.log "Mongoose error occured: #{err}"
 shutdown = ->
   mongoose.disconnect()
   console.log "\nDisconnected from Mongoose"
