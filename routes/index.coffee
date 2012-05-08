@@ -10,7 +10,7 @@ module.exports =
     res.render 'index'
     
   show_buildings: (req, res, next) ->
-    properties.Building.find {}, {name:true, meters: true}, (err, docs) ->
+    properties.Building.find {}, {}, (err, docs) ->
       return next err if err?
       ret =
         title: "#{docs.length} Buildings"
@@ -18,9 +18,9 @@ module.exports =
       res.send ret
 
   show_building_meters: (req, res, next)->
-    properties.Building.find {_id: req.params.id}, {name:true, meters: true}, (err, docs) ->
+    properties.Building.find {_id: req.params.id}, {}, (err, docs) ->
       ret =
-        title: "#{docs[0].meters.length} Meters"
+        title: "#{docs[0].name}: #{docs[0].meters.length} Meters"
         records: docs[0].meters
       res.send ret
     

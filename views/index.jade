@@ -5,7 +5,7 @@ script(type="text/template", id="buildings-templ").
 
 	{{#records}}
 	<div class="row">
-		<a	class="ajax-link" href="/building/{{_id}}/meters"> {{name}}</a>
+		{{name}} {{owner}} {{squareFootage}}sqft <a class="ajax-link" href="/building/{{_id}}/meters">{{meters.length}} meters</a>
 	</div>
 	{{/records}}
 
@@ -16,6 +16,6 @@ script(type="text/template", id="meters-templ").
 
 	{{#records}}
 	<div class="row">
-		<a	class="ajax-link" href="/building/{{_id}}/meters/{{name}}"> {{name}}</a>
+		{{name}} {{utility}} <a class="ajax-link" href="/building/{{_id}}/meters">readings</a>
 	</div>
 	{{/records}}
