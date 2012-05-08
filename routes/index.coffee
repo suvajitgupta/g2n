@@ -18,8 +18,7 @@ module.exports =
       res.send ret
 
   show_building_meters: (req, res, next)->
-    building_name = req.params.name
-    properties.Building.find {name: building_name}, {name:true, meters: true}, (err, docs) ->
+    properties.Building.find {_id: req.params.id}, {name:true, meters: true}, (err, docs) ->
       ret =
         title: "#{docs[0].meters.length} Meters"
         records: docs[0].meters
