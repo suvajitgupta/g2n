@@ -14,7 +14,7 @@ buildings = [
 ,
   name: "Fernwood"
   squareFootage: 235417
-  owner: "Meritage Property Management"
+  owner: "Heritage Property Management"
   meters: [
     name: "Feed A"
     building: "Fernwood"
