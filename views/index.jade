@@ -2,20 +2,49 @@ script(type="text/template", id="buildings-templ").
 	<div class="page-header">
 		<h1 class="header">{{header}}</h1>
 	</div>
-
-	{{#records}}
 	<div class="row">
-		{{name}} {{owner}} {{squareFootage}}sqft <a class="ajax-link" href="/building/{{_id}}/meters">{{meters.length}} meters</a>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			<th>Name</th>
+			<th>Owner</th>
+			<th>Square Footage</th>
+			<th>Meters</th>
+			</tr>
+		</thead>
+		{{#records}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{owner}}</td>
+			<td>{{squareFootage}}</td>
+			<td><a class="ajax-link" href="/building/{{_id}}/meters">{{meters.length}}</a></td>
+		</tr>
+		{{/records}}
+	</table>
 	</div>
-	{{/records}}
 
 script(type="text/template", id="meters-templ").
 	<div class="page-header">
 		<h1 class="header">{{header}}</h1>
 	</div>
-
-	{{#records}}
 	<div class="row">
-		{{name}} {{utility}} <a class="ajax-link" href="/building/{{_id}}/meters">readings</a>
-	</div>
+	{{#records}}
+		
 	{{/records}}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			<th>Name</th>
+			<th>Utility</th>
+			<th>Readings</th>
+			</tr>
+		</thead>
+		{{#records}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{utility}}</td>
+			<td><a class="ajax-link" href="/building/{{_id}}/meters">View</a></td>
+		</tr>
+		{{/records}}
+	</table>
+	</div>
