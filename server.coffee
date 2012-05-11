@@ -22,7 +22,8 @@ app.helpers
 # setup routes
 app.get  '/', routes.index
 app.get  '/buildings', routes.show_buildings
-app.get '/building/:id/meters', routes.show_building_meters
+app.get '/building/:building_id/meters', routes.show_building_meters
+app.get '/meter/:meter_id/readings', routes.show_meter_readings
 
 # start server
 app.listen port, -> console.log "Listening @ http://0.0.0.0:#{port}"

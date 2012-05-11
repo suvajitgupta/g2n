@@ -1,0 +1,12 @@
+div.page-header
+	h1.header= header
+div.row
+	table.table.table-striped
+		thead
+			tr
+				th Timestamp
+				th kW
+		each reading in readings
+			tr
+				td= reading.timestamp
+				td= reading.kW

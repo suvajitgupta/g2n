@@ -9,7 +9,6 @@ hydrateTemplate = (templateID, data)->
   hydrated = $.mustache templ, data
   return hydrated
 
-
 $ ->
   $.get '/buildings', (data, textStatus, jqXHR)->
     report = hydrateTemplate 'buildings', data

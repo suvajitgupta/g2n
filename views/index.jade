@@ -28,9 +28,6 @@ script(type="text/template", id="meters-templ").
 		<h1 class="header">{{header}}</h1>
 	</div>
 	<div class="row">
-	{{#records}}
-		
-	{{/records}}
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -43,7 +40,7 @@ script(type="text/template", id="meters-templ").
 		<tr>
 			<td>{{name}}</td>
 			<td>{{utility}}</td>
-			<td><a class="ajax-link" href="/building/{{_id}}/meters">View</a></td>
+			<td><a class="ajax-link" href="/meter/{{_id}}/readings">View</a></td>
 		</tr>
 		{{/records}}
 	</table>
