@@ -1,6 +1,6 @@
 Proof of Concept for G2N app
 
-Run 'coffee server' at command line and hit 'localhost:3000' from browser
+Run 'npm start' at command line and browse to 'localhost:3000'
 
 Useful links:
 https://mongolab.com
