@@ -1,0 +1,17 @@
+div.page-header
+	h1.header= header
+div.row
+	table.table.table-striped
+		thead
+			tr
+				th Name
+				th Owner
+				th Square Footage
+				th Meters
+		each building in buildings
+			tr
+				td= building.name
+				td= building.owner
+				td= building.squareFootage
+				td
+					a.ajax-link(href="/building/#{building._id}/meters") #{building.meters.length}

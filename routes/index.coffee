@@ -13,20 +13,21 @@ module.exports =
     res.render 'index'
     
   show_buildings: (req, res, next) ->
-    properties.Building.find {}, {}, (err, docs) ->
+    properties.Building.find {}, {}, (err, buildings) ->
       return next err if err?
       ret =
-        header: "#{docs.length} Buildings"
-        records: docs
-      res.send ret
+        header: "#{buildings.length} Buildings"
+        buildings: buildings
+      res.render 'buildings', ret
 
   show_building_meters: (req, res, next)->
-    properties.Building.find {_id: req.params.building_id}, {}, (err, docs) ->
+    properties.Building.find {_id: req.params.building_id}, {}, (err, buildings) ->
       return next err if err?
+      building = buildings[0]
       ret =
-        header: "#{docs[0].name}: #{docs[0].meters.length} Meters"
-        records: docs[0].meters
-      res.send ret
+        header: "#{building.name}: #{building.meters.length} Meters"
+        meters: building.meters
+      res.render 'meters', ret
 
   show_meter_readings: (req, res, next)->
     properties.Building.find {'meters._id': req.params.meter_id}, {}, (err, buildings) ->
@@ -34,15 +35,12 @@ module.exports =
       building = buildings[0]
       meter = building.meters[0]
       readings.MeterReading.find {'meterId': req.params.meter_id}, {}, (err, readings) ->
-        return next err if err?
-        
+        return next err if err?     
         chart_categories = readings.map (reading) -> reading.timestamp
-        chart_data = readings.map (reading) -> reading.kW
-         
+        chart_data = readings.map (reading) -> reading.kW    
         ret =
           header: "#{building.name}.#{meter.name}: #{readings.length} Readings"
           readings: readings
           chart_data: chart_data
           chart_categories: chart_categories
         res.render 'readings', ret
-    

@@ -20,7 +20,7 @@ app.helpers
   title: "G2N PoC"
 
 # setup routes
-app.get  '/', routes.index
+app.get  '/', routes.show_buildings
 app.get  '/buildings', routes.show_buildings
 app.get '/building/:building_id/meters', routes.show_building_meters
 app.get '/meter/:meter_id/readings', routes.show_meter_readings

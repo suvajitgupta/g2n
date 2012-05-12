@@ -1,0 +1,15 @@
+div.page-header
+	h1.header= header
+div.row
+	table.table.table-striped
+		thead
+			tr
+				th Name
+				th Utility
+				th Readings
+		each meter in meters
+			tr
+				td= meter.name
+				td= meter.utility
+				td
+					a.ajax-link(href="/meter/#{meter._id}/readings") View
