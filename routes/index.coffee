@@ -36,7 +36,7 @@ module.exports =
       meter = building.meters[0]
       readings.MeterReading.find {'meterId': req.params.meter_id}, {}, (err, readings) ->
         return next err if err?     
-        chart_categories = readings.map (reading) -> reading.timestamp
+        chart_categories = readings.map (reading) -> reading.createdAt
         chart_data = readings.map (reading) -> reading.kW    
         ret =
           header: "#{building.name}.#{meter.name}: #{readings.length} Readings"

@@ -14,7 +14,7 @@ div.row
 				th kW
 		each reading in readings
 			tr
-				td= reading.timestamp
+				td= (reading.createdAt.getHours() + ':' + reading.createdAt.getMinutes())
 				td= reading.kW
 				
 div(id="graphArea", style="min-width: 400px; height: 400px; margin: 0 auto;")

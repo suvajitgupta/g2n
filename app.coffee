@@ -61,17 +61,19 @@ seed_docs = (Model, done) ->
 #   building_name = docs[0].name
 #   console.log "Building Name: #{building_name}"
 #   done = done_cb(readings_data.building_readings)
-#   for building_reading in readings_data.building_readings
+#   date = (new Date()).getTime();
+#   fifteenMinutes = 15*60*1000;
+#   for building_reading, i in readings_data.building_readings
 #     building_reading.buildingId = building_id
-#     building_reading.timestamp = new Date
+#     building_reading.createdAt = new Date(date + i*4*fifteenMinutes)
 #     add_doc readings.BuildingReading, building_reading, done
 #   meter_id = docs[0].meters[0]._id
 #   meter_name = docs[0].meters[0].name
 #   console.log "Meter Name: #{meter_name}"
 #   done = done_cb(readings_data.meter_readings)
-#   for meter_reading in readings_data.meter_readings
+#   for meter_reading, i in readings_data.meter_readings
 #     meter_reading.meterId = meter_id
-#     meter_reading.timestamp = new Date
+#     meter_reading.createdAt = new Date(date + i*fifteenMinutes)
 #     add_doc readings.MeterReading, meter_reading, done
 
 
@@ -82,9 +84,9 @@ seed_docs = (Model, done) ->
 #   meter_id = docs[0].meters[0]._id
 #   meter_name = docs[0].meters[0].name
 #   console.log "Meter Name: #{meter_name}"
-#   readings.BuildingReading.find {buildingId: building_id}, {temperature: true, timestamp: true}, (err, docs) ->
+#   readings.BuildingReading.find {buildingId: building_id}, {temperature: true, createdAt: true}, (err, docs) ->
 #     print_docs docs, null
-#     readings.MeterReading.find {meterId: meter_id}, {kW: true, timestamp: true}, (err, docs) ->
+#     readings.MeterReading.find {meterId: meter_id}, {kW: true, createdAt: true}, (err, docs) ->
 #       print_docs docs, shutdown
 #       shutdown()
 
