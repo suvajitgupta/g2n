@@ -1,15 +1,15 @@
 div.page-header
-	h1.header= header
+  h1.header #{building.name}: #{building.meters.length} Meters
 div.row
-	table.table.table-striped
-		thead
-			tr
-				th Name
-				th Utility
-				th Readings
-		each meter in meters
-			tr
-				td= meter.name
-				td= meter.utility
-				td
-					a.ajax-link(href="/meter/#{meter._id}/readings") View
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th Utility
+        th Readings
+    each meter in meters
+      tr
+        td= meter.name
+        td= meter.utility
+        td
+          a.ajax-link(href="/building/#{building._id}/meter/#{meter._id}/readings") View

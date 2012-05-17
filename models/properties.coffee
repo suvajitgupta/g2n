@@ -1,4 +1,4 @@
-mongoose	= require 'mongoose'
+mongoose  = require 'mongoose'
 Schema    = mongoose.Schema
 
 meter_schema = new Schema
@@ -6,8 +6,8 @@ meter_schema = new Schema
   name:       String
   building:   String
   utility:    String
-	createdAt:  Date
-	updatedAt:  Date
+  createdAt:  Date
+  updatedAt:  Date
 
 square_footage_validator = (v)->
   return v > 0
@@ -17,8 +17,8 @@ building_schema = new Schema
   squareFootage: { type: Number, validate: [ square_footage_validator, 'invalid building square feet' ] }
   owner:      String
   meters:     [meter_schema]
-	createdAt:  Date
-	updatedAt:  Date
+  createdAt:  Date
+  updatedAt:  Date
 
 Building  = mongoose.model "building", building_schema
 
