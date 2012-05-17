@@ -6,39 +6,46 @@ link(rel="stylesheet", type="text/css", href="http://www.highcharts.com/highslid
 
 div.page-header
   h1.header= header
-div.row
-  table.table.table-striped
-    thead
-      tr
-        th Timestamp
-        th kW
-    each reading in readings
-      tr
-        td= reading.timestamp
-        td= reading.kW
         
 div(id="graphArea", style="min-width: 400px; height: 400px; margin: 0 auto;")
 
 script
-  $(document).ready(function() {
-    var chart = new Highcharts.Chart({
+  var createGraph = function(target, options, data) {
+    var graph = new Highcharts.Chart({
       chart: {
-        renderTo: 'graphArea',
-        type: 'line'
+        renderTo: target,
+        zoomType: 'x',
+        type: options.type
       },
       title: {
-        text: 'Meter Readings'
+        text: options.title
       },
       xAxis: {
-        categories: [ #{timestamps} ]
+        type: 'datetime',
+        maxZoom: 15 * 60 * 1000
       },
-      yAxis: {
-          title: {
-            text: 'kW'
-          }
+      yAxis: { 
+        title: { 
+          text: options.yAxis.title 
+        } 
       },
       series: [{
-          data: [ #{kWs} ]
-        }]
+        pointStart: Date.UTC(#{chart_start.year},#{chart_start.month},#{chart_start.day}, #{chart_start.hour}, #{chart_start.min}),
+        pointInterval: 15 * 60 * 1000,
+        data: data
+      }]
     });
+  };
+  
+  $(document).ready(function() {
+    var chart_target = 'graphArea';
+    var chart_data = [ #{kWs} ];
+    var chart_categories = [ #{timestamps} ];    
+    var chart_options = {
+      type: 'line',
+      title: 'Meter Readings (kW)',
+      yAxis: { title: 'kW' },
+      xAxis: { categories: chart_categories }
+    };
+    createGraph(chart_target, chart_options, chart_data);
   });

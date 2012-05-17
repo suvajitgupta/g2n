@@ -36,6 +36,16 @@ module.exports =
       meter = building.meters[0]
       readings.MeterReading.find {'meterId': req.params.meter_id}, {}, (err, readings) ->
         return next err if err?
+        
+        chart_start =
+          day: readings[0].createdAt.getDay()
+          month: readings[0].createdAt.getMonth()
+          year: readings[0].createdAt.getYear()
+          hour: readings[0].createdAt.getHours()
+          min: readings[0].createdAt.getMinutes()
+          
+        console.log chart_start
+          
         for reading in readings
           reading.timestamp = reading.createdAt.getHours() + ':' + reading.createdAt.getMinutes()
           
@@ -43,6 +53,7 @@ module.exports =
         kWs = readings.map (reading) -> reading.kW
         ret =
           header: "#{building.name}.#{meter.name}: #{readings.length} Readings"
+          chart_start: chart_start
           readings: readings
           timestamps: timestamps
           kWs: kWs
