@@ -1,7 +1,7 @@
 buildings = require './buildings'
-meters    = require './meters'
+charts  = require './charts'
 
 module.exports =
   register: (app) ->
-    buildings.register app
-    meters.register app
+    buildings app
+    charts app

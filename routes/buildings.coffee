@@ -9,8 +9,7 @@ show_building_meters = (req, res, next) ->
   building = req.building
   res.render 'meters', { building, meters: building.meters }
 
-module.exports =
-  register: (app) ->
-    app.get '/', show_all_buildings
-    app.get '/buildings', show_all_buildings
-    app.get '/building/:building_id/meters', show_building_meters
+module.exports = (app) ->
+  app.get '/', show_all_buildings
+  app.get '/buildings', show_all_buildings
+  app.get '/building/:building_id/meters', show_building_meters

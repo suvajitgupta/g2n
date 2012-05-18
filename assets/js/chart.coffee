@@ -11,7 +11,6 @@ $.fn.chart = (options, data) ->
     graph_options.series.push { data }
     
     graph = new Highcharts.Chart graph_options
-      
     
     # function(target, options, data) {
     #   var graph = new Highcharts.Chart({

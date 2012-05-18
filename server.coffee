@@ -9,6 +9,7 @@ middleware =
 app = express.createServer()
 app.use assets src: "#{__dirname}/assets"
 app.set 'view engine', 'jade'
+app.set 'view options', { layout: false }
 app.use express.favicon()
 app.use express.bodyParser()
 app.use express.methodOverride()
