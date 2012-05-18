@@ -14,7 +14,7 @@ add_doc = (Model, doc, cb) ->
       return err
     else
       return m
-
+      
 properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, docs) ->
   building_id = docs[0]._id
   building_name = docs[0].name
@@ -32,5 +32,5 @@ properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, doc
       createdAt: new Date("#{data[0]} #{data[1]}"),
       kW: data[2]
   
-    add_doc readings.MeterReading, meter_reading, () -> console.log meter_reading.kW
+    add_doc readings.MeterReading, meter_reading, () -> console.log meter_reading
 

@@ -6,18 +6,14 @@ show_meter_details = (req, res, next)->
   meter_id = req.params.meter_id
   
   meters.get_readings meter_id, (err, readings) ->
-    chart_start =
-      day: readings[0].createdAt.getDay()
-      month: readings[0].createdAt.getMonth()
-      year: readings[0].createdAt.getYear()
-      hour: readings[0].createdAt.getHours()
-      min: readings[0].createdAt.getMinutes()
-
+    utc_start = Date.parse readings[0].createdAt
+    
     timestamps = readings.map (reading) -> '\'' + reading.timestamp + '\''
     kWs = readings.map (reading) -> reading.kW
     ret =
-      header: "#{building.name}.#{meter.name}: #{readings.length} Readings"
-      chart_start: chart_start
+      building_name: building.name
+      meter_name: meter.name
+      chart_start: utc_start
       readings: readings
       timestamps: timestamps
       kWs: kWs

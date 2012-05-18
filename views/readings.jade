@@ -5,8 +5,7 @@ script(src="http://www.highcharts.com/highslide/highslide.config.js", type="text
 link(rel="stylesheet", type="text/css", href="http://www.highcharts.com/highslide/highslide.css")
 
 div.page-header
-  h1.header= header
-        
+  h1.header #{building_name}.#{meter_name}: #{readings.length} Readings
 div(id="graphArea", style="min-width: 400px; height: 400px; margin: 0 auto;")
 
 script
@@ -30,7 +29,7 @@ script
         } 
       },
       series: [{
-        pointStart: Date.UTC(#{chart_start.year},#{chart_start.month},#{chart_start.day}, #{chart_start.hour}, #{chart_start.min}),
+        pointStart: #{chart_start},
         pointInterval: 15 * 60 * 1000,
         data: data
       }]
