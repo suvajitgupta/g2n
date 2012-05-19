@@ -1,37 +1,38 @@
 $ = jQuery
-$.fn.chart = (options, data) ->
-  @.each () ->
-    target = $(@).attr 'id'
-    
+
+create_yAxis = (axis) ->
+  yAxis =
+    title:
+      text: axis.title
+
+render_chart = (target, zoom_type) ->
+  (response) ->
     graph_options =
       chart:
-        renderTo: target
-        type: options.type or 'bar'
-      series: []
-    graph_options.series.push { data }
-    
+        renderTo: target.attr 'id'
+        type: response.type or 'bar'
+        zoomType: zoom_type or ''
+      title:
+        text: response.title or ''
+        
+    graph_options.xAxis = response.xAxis if response.xAxis?
+
+    graph_options.yAxis = [] if response.yAxis?
+    graph_options.yAxis.push create_yAxis(axis) for axis in response.yAxis
+
+    graph_options.series = [{ data: response.data, name: response.data_name }]
     graph = new Highcharts.Chart graph_options
+
+render_failure = (target) ->
+  (response) ->
+    $(target).html 'An error occurred. Your chart could not be loaded'
     
-    # function(target, options, data) {
-    #   var graph = new Highcharts.Chart({
-    #     chart: {
-    #       zoomType: 'x',
-    #     },
-    #     title: {
-    #       text: options.title
-    #     },
-    #     xAxis: {
-    #       type: 'datetime',
-    #       maxZoom: 15 * 60 * 1000
-    #     },
-    #     yAxis: { 
-    #       title: { 
-    #         text: options.yAxis.title 
-    #       } 
-    #     },
-    #     series: [{
-    #       pointStart: Date.UTC(#{chart_start.year},#{chart_start.month},#{chart_start.day}, #{chart_start.hour}, #{chart_start.min}),
-    #       pointInterval: 15 * 60 * 1000,
-    #       data: data
-    #     }]
-    #   });
+load_chart = (url, target, zoom_type) ->
+  target.html 'Loading Chart...'
+  $.get(url).success(render_chart target, zoom_type).fail(render_failure target)
+
+$.fn.chart = (url) ->
+  load_chart url, @
+
+$.fn.zoomable_chart = (url) ->
+  load_chart url, @, 'xy'

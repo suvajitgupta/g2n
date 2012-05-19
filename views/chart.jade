@@ -4,7 +4,8 @@ block append styles
   link(rel="stylesheet", type="text/css", href="http://www.highcharts.com/highslide/highslide.css")
 
 block content
-  div(id="chart", style="min-width: 400px; height: 400px; margin: 0 auto;")
+  #withoutZoom.span5
+  #withZoom.span5
 
 block append scripts
   script(src="http://code.highcharts.com/highcharts.js", type="text/javascript")
@@ -13,20 +14,8 @@ block append scripts
   script(src="http://www.highcharts.com/highslide/highslide.config.js", type="text/javascript")
   != js('chart')
   script
-    var render_chart = function(data){
-      var options = {
-        type: 'line',
-        title: 'Meter Readings (kW)',
-        yAxis: { title: 'kW' },
-      };
-      $('#chart').chart(options, data.readings.map(function(reading){ return reading.kW; }));
-    };
-  
-    var render_failure = function(data){
-      $('#chart').html('An error occurred. Your chart could not be loaded');
-    };
-  
     $(document).ready(function(){
-      var chart_data_url = '!{chart_data_url}';
-      $.get(chart_data_url).success(render_chart).fail(render_failure);
+      var url = '!{chart.url}';
+      $('#withoutZoom').chart(url);
+      $('#withZoom').zoomable_chart(url);
     });

@@ -7,7 +7,15 @@ module.exports = (app) ->
     meter_id = req.params.meter_id
 
     meters.get_readings meter_id, (err, readings) ->
-      reading_begin = Date.parse readings[0].createdAt      
-      res.json
-        reading_begin: reading_begin
-        readings: readings
+      yAxis =
+        title: 'Kilowatt Hours (kw)'
+      
+      chart_data =
+        title: 'Meter Readings (kW)'
+        type: 'line'
+        xAxis:
+          type: 'datetime'
+        yAxis: [ yAxis ]
+        data_name: 'Meter Reading'
+        data: readings.map (reading) -> [ Date.parse(reading.createdAt), reading.kW ]
+      res.json chart_data
