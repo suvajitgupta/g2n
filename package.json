@@ -1,11 +1,12 @@
 {
   "name": "g2n",
-  "description" : "G2N application",
+  "description" : "Green20Now PoC",
   "version" : "0.0.1",
   "private" : true,
   "author" : "Suvajit Gupta <suvajit_gupta@yahoo.com>",
   "contributors": [
     { "name": "Suvajit Gupta", "email": "suvajit_gupta@yahoo.com" }
+    { "name": "Seth Carney", "email": "scarney81@gmail.com" }
   ],
   "dependencies" : {
     "express": "2.5.x",
