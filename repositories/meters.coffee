@@ -7,7 +7,7 @@ module.exports = class Meters extends Repository
   constructor: () ->
     super config, model.Building
     
-  findById: (id, cb) ->
+  find_by_id: (id, cb) ->
     throw 'no callback specified' unless cb?
     model.Building.find {'meters._id': id}, {}, (err, meters) ->
       return cb err if err?

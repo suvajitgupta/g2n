@@ -13,7 +13,7 @@ module.exports = class
     @Model.find {}, {}, (err, results) ->
       cb err, results
       
-  findById: (id, cb) =>
+  find_by_id: (id, cb) =>
     throw 'no callback specified' unless cb?
     @Model.find { _id: id }, {}, (err, items) ->
       return cb err if err?
