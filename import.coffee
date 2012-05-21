@@ -31,6 +31,5 @@ properties.Building.find {name: "50 West"}, {name:true, meters: true}, (err, doc
       meterId: meter_id
       createdAt: new Date("#{data[0]} #{data[1]}"),
       kW: data[2]
-  
     add_doc readings.MeterReading, meter_reading, () -> console.log meter_reading
 
