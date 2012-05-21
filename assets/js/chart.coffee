@@ -1,4 +1,3 @@
-#= require 'lib/jquery.min.js'
 #= require 'lib/highcharts/highcharts.js'
 #= require 'lib/highcharts/modules/exporting.js'
 

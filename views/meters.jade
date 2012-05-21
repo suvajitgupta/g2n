@@ -15,4 +15,9 @@ block content
           td= meter.name
           td= meter.utility
           td
-            a.ajax-link(href="/charts/meter_readings?buildingId=#{building._id}&meterId=#{meter._id}") View
+            a(href='/chart/readings/#{building._id}/#{meter._id}', rel='popover') Readings
+            
+  #chart
+            
+block append scripts
+  != js('meters')
