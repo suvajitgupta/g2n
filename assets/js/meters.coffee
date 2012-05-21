@@ -5,5 +5,5 @@ $(document).ready () ->
   $("a[rel=popover]").click (e) ->
     chart = $ '#chart'
     url = $(@).attr 'href'
-    chart.chart url
+    chart.chart url, { zoomable: true }
     e.preventDefault()
