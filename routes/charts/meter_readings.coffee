@@ -2,11 +2,7 @@ meters = new (require '../../repositories/meters')()
 
 module.exports = (app) ->
   app.get '/chart/readings/:building_id/:meter_id', (req, res, next) ->
-    building = req.building
-    meter = req.meter
-    meter_id = req.params.meter_id
-
-    meters.get_readings meter_id, (err, readings) ->
+    meters.get_readings req.params.meter_id, (err, readings) ->
       yAxis =
         title: 'Kilowatt Hours (kw)'
       
