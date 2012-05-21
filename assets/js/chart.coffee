@@ -1,3 +1,5 @@
+#= require 'lib/jquery.min.js'
+
 $ = jQuery
 
 create_yAxis = (axis) ->
