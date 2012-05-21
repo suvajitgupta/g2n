@@ -5,7 +5,7 @@
   "private" : true,
   "author" : "Suvajit Gupta <suvajit_gupta@yahoo.com>",
   "contributors": [
-    { "name": "Suvajit Gupta", "email": "suvajit_gupta@yahoo.com" }
+    { "name": "Suvajit Gupta", "email": "suvajit_gupta@yahoo.com" },
     { "name": "Seth Carney", "email": "scarney81@gmail.com" }
   ],
   "dependencies" : {

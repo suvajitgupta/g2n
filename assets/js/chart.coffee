@@ -1,4 +1,6 @@
 #= require 'lib/jquery.min.js'
+#= require 'lib/highcharts/highcharts.js'
+#= require 'lib/highcharts/modules/exporting.js'
 
 $ = jQuery
 
@@ -33,8 +35,7 @@ load_chart = (url, target, zoom_type) ->
   target.html 'Loading Chart...'
   $.get(url).success(render_chart target, zoom_type).fail(render_failure target)
 
-$.fn.chart = (url) ->
-  load_chart url, @
-
-$.fn.zoomable_chart = (url) ->
-  load_chart url, @, 'xy'
+$.fn.chart = (url, options) ->
+  zoom = ''
+  zoom = 'xy' if options?.zoomable
+  load_chart url, @, zoom
