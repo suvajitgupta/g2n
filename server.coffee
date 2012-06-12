@@ -27,7 +27,7 @@ app.helpers
   title: "G2N PoC"
 
 # setup routes
-routes.register(app);
+routes.register app
 
 # start server
 app.listen port, -> console.log "Listening @ http://0.0.0.0:#{port}"
